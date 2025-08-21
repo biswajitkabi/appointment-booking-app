@@ -30,6 +30,14 @@ Minimal clinic appointment booking app per take-home spec.
 
 ---
 
+## ✅ Submission Checklist
+
+- **Frontend URL**: https://appointment-booking-app-theta.vercel.app
+- **API URL**: https://appointment-booking-app-nl50.onrender.com
+- **Patient**: patient@example.com / Passw0rd!
+- **Admin**: admin@example.com / Passw0rd!
+- **Repo URL**: https://github.com/biswajitkabi/appointment-booking-app.git
+
 ## ⚙️ Environment Variables
 
 ### Backend (`backend/.env`)
@@ -43,11 +51,4 @@ ADMIN_PASSWORD=Passw0rd!
 PATIENT_EMAIL=patient@example.com
 PATIENT_PASSWORD=Passw0rd!
 
-## ✅ Submission Checklist
-
-- Frontend URL: https://appointment-booking-app-theta.vercel.app
-- API URL: https://appointment-booking-app-nl50.onrender.com
-- Patient: patient@example.com / Passw0rd!
-- Admin: admin@example.com / Passw0rd!
-- Repo URL: https://github.com/biswajitkabi/appointment-booking-app.git
 
