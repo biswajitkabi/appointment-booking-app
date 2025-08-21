@@ -2,25 +2,24 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api";
 
-export default function Register() {
+export default function Login() {
   const nav = useNavigate();
-  const [name, setName] = useState("Patient");
   const [email, setEmail] = useState("patient@example.com");
   const [password, setPassword] = useState("Passw0rd!");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
-  const [ok, setOk] = useState("");
 
   async function submit(e) {
     e.preventDefault();
     setLoading(true);
-    setErr(""); setOk("");
+    setErr("");
     try {
-      await api.post("/register", { name, email, password });
-      setOk("Registered! You can login now.");
-      setTimeout(() => nav("/login"), 800);
+      const res = await api.post("/login", { email, password });
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.role);
+      nav(res.data.role === "admin" ? "/admin" : "/");
     } catch (e) {
-      setErr(e?.response?.data?.error?.message || "Registration failed");
+      setErr(e?.response?.data?.error?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -28,22 +27,22 @@ export default function Register() {
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white border rounded p-6">
-      <h1 className="text-xl font-semibold mb-4">Register</h1>
+      <h1 className="text-xl font-semibold mb-4">Login</h1>
       {err && <div className="mb-3 text-sm text-red-600">{err}</div>}
-      {ok && <div className="mb-3 text-sm text-green-700">{ok}</div>}
       <form onSubmit={submit} className="space-y-3">
-        <input className="w-full border rounded px-3 py-2" placeholder="Full name"
-               value={name} onChange={e=>setName(e.target.value)} />
         <input className="w-full border rounded px-3 py-2" placeholder="Email"
                value={email} onChange={e=>setEmail(e.target.value)} />
         <input className="w-full border rounded px-3 py-2" placeholder="Password" type="password"
                value={password} onChange={e=>setPassword(e.target.value)} />
         <button className="w-full bg-gray-900 text-white rounded py-2" disabled={loading}>
-          {loading ? "Creating..." : "Register"}
+          {loading ? "Signing in..." : "Login"}
         </button>
       </form>
       <div className="text-sm mt-3">
-        Have an account? <Link to="/login" className="underline">Login</Link>
+        No account? <Link to="/register" className="underline">Register</Link>
+      </div>
+      <div className="text-xs text-gray-500 mt-4">
+        Try admin: admin@example.com / Passw0rd!
       </div>
     </div>
   );
