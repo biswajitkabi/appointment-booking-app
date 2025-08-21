@@ -8,29 +8,34 @@ generator client {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
-  email        String   @unique
+  email        String    @unique
   passwordHash String
-  role         String   // 'patient' or 'admin'
-  createdAt    DateTime @default(now())
+  role         Role
+  createdAt    DateTime  @default(now())
   bookings     Booking[]
 }
 
 model Slot {
-  id        Int      @id @default(autoincrement())
-  startAt   DateTime
-  endAt     DateTime
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  startAt   DateTime  // stored in UTC
+  endAt     DateTime  // stored in UTC
+  createdAt DateTime  @default(now())
   bookings  Booking?
 }
 
 model Booking {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  slotId    Int  @unique
-  createdAt DateTime @default(now())
+  slotId    Int       @unique
+  createdAt DateTime  @default(now())
 
   user  User @relation(fields: [userId], references: [id])
   slot  Slot @relation(fields: [slotId], references: [id])
+}
+
+enum Role {
+  patient
+  admin
 }
